@@ -490,6 +490,8 @@
   .btn-base:hover { background: #21867a; }
   .btn-accent { background: #e76f51; }
   .btn-accent:hover { background: #d45d3f; }
+  .btn-danger { background: #e63946; }
+  .btn-danger:hover { background: #d90429; }
 
   .tip {
     width: 980px; color: #8d99ae; font-size: 12px; margin-top: 6px; text-align: center;
@@ -579,6 +581,7 @@
     <label id="txt-upload-label">Upload Vocabulary File:</label>
     <input type="file" id="vocab-file-input" accept=".txt,.docx,.csv,.json" onchange="handleVocabFileUpload(event)">
     <button class="btn-base" onclick="document.getElementById('vocab-file-input').click()">📁 Upload File</button>
+    <button class="btn-base btn-danger" onclick="deleteCurrentCustomVocab()">🗑️ 删除当前词库</button>
   </div>
 
   <div class="control-row">
@@ -2749,6 +2752,7 @@ const easyStepsDict = {};
 let allSeriesStages = {};
 let currentSeriesKey = "HSK1";
 let curriculumStages = [];
+const defaultBuiltinKeys = ["HSK1", "HSK2", "HSK3", "HSK4", "YCT1", "YCT2", "YCT3", "YCT4", "YCT5", "YCT6", "ESTC", "EasySteps"];
 
 function parseTextToStages(text, seriesName) {
   const lines = text.split(/\r?\n/);
@@ -2832,6 +2836,18 @@ function parseWordDocLine(line) {
 }
 
 function initAllDatabases() {
+  try {
+    const savedCustomData = localStorage.getItem('super_mario_custom_vocabularies');
+    if (savedCustomData) {
+      const parsedCustom = JSON.parse(savedCustomData);
+      for (let k in parsedCustom) {
+        multiSeriesRawData[k] = parsedCustom[k];
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load local custom vocabularies:", e);
+  }
+
   for (let key in multiSeriesRawData) {
     allSeriesStages[key] = parseTextToStages(multiSeriesRawData[key], key);
   }
@@ -2870,11 +2886,30 @@ function handleVocabFileUpload(event) {
     multiSeriesRawData[fileName] = content;
     allSeriesStages[fileName] = parseTextToStages(content, fileName);
     
+    try {
+      let customData = {};
+      const existing = localStorage.getItem('super_mario_custom_vocabularies');
+      if (existing) customData = JSON.parse(existing);
+      customData[fileName] = content;
+      localStorage.setItem('super_mario_custom_vocabularies', JSON.stringify(customData));
+    } catch (err) {
+      console.error("Failed to save vocabularies to localStorage:", err);
+    }
+    
     const seriesSel = document.getElementById('series-select');
-    let opt = document.createElement('option');
-    opt.value = fileName;
-    opt.innerText = `📁 ${fileName} (上传)`;
-    seriesSel.appendChild(opt);
+    let exists = false;
+    for (let i = 0; i < seriesSel.options.length; i++) {
+      if (seriesSel.options[i].value === fileName) {
+        exists = true;
+        break;
+      }
+    }
+    if (!exists) {
+      let opt = document.createElement('option');
+      opt.value = fileName;
+      opt.innerText = `📁 ${fileName} (已保存)`;
+      seriesSel.appendChild(opt);
+    }
     
     seriesSel.value = fileName;
     currentSeriesKey = fileName;
@@ -2883,9 +2918,56 @@ function handleVocabFileUpload(event) {
     rebuildPresetSelect();
     currentWorld = 1;
     initWorld();
-    alert(`成功加载教材文件: ${file.name}，已自动分类！`);
+    alert(`成功加载并永久保存词汇文件: ${file.name}！`);
   };
   reader.readAsText(file);
+}
+
+// 新增：删除当前选择的自定义词汇表功能
+function deleteCurrentCustomVocab() {
+  const seriesSel = document.getElementById('series-select');
+  const selectedKey = seriesSel.value;
+
+  // 检查是否为内置词库
+  if (defaultBuiltinKeys.includes(selectedKey)) {
+    alert("内置教材体系无法删除！");
+    return;
+  }
+
+  if (confirm(`确定要删除自定义词汇表 "${selectedKey}" 吗？`)) {
+    // 从内存中移除
+    delete multiSeriesRawData[selectedKey];
+    delete allSeriesStages[selectedKey];
+
+    // 从 localStorage 移除
+    try {
+      const existing = localStorage.getItem('super_mario_custom_vocabularies');
+      if (existing) {
+        let customData = JSON.parse(existing);
+        delete customData[selectedKey];
+        localStorage.setItem('super_mario_custom_vocabularies', JSON.stringify(customData));
+      }
+    } catch (err) {
+      console.error("Failed to delete from localStorage:", err);
+    }
+
+    // 从下拉菜单中移除该选项
+    for (let i = 0; i < seriesSel.options.length; i++) {
+      if (seriesSel.options[i].value === selectedKey) {
+        seriesSel.remove(i);
+        break;
+      }
+    }
+
+    // 切回默认 HSK1
+    seriesSel.value = "HSK1";
+    currentSeriesKey = "HSK1";
+    curriculumStages = allSeriesStages["HSK1"];
+    rebuildPresetSelect();
+    currentWorld = 1;
+    initWorld();
+    alert(`词汇表 "${selectedKey}" 已成功删除！`);
+  }
 }
 
 function rebuildPresetSelect() {
@@ -3742,9 +3824,6 @@ function renderMapEnvironment() {
       });
     });
   } else if (stage === 7) {
-    // -------------------------------------------------------------------------
-    // 第七关：严格对应新图（浅绿背景、浮空长条砖块平台、空中笑脸云、底部灌木、地面上的栗子怪与乌龟、右侧大绿山群）
-    // -------------------------------------------------------------------------
     container.style.background = "#98fb98";
     ground.className = "ground world-7-ground";
     ground.style.display = 'block';
@@ -3752,39 +3831,32 @@ function renderMapEnvironment() {
     goomba1El.style.display = 'none';
     goomba2El.style.display = 'none';
 
-    // 1. 背景笑脸云与左侧/右侧灌木/山丘
     decor.innerHTML = `
-      <!-- 左上笑脸云 -->
       <svg class="scene-decor" style="left:60px; top:120px; width:52px; height:45px;" viewBox="0 0 52 45">
         <rect x="6" y="4" width="40" height="36" rx="18" fill="#fff" stroke="#000" stroke-width="2.5"/>
         <circle cx="18" cy="20" r="3" fill="#000"/><circle cx="34" cy="20" r="3" fill="#000"/>
         <path d="M 22 26 Q 26 31 30 26" fill="none" stroke="#000" stroke-width="2.5"/>
       </svg>
-      <!-- 中上笑脸云 -->
       <svg class="scene-decor" style="left:330px; top:90px; width:52px; height:45px;" viewBox="0 0 52 45">
         <rect x="6" y="4" width="40" height="36" rx="18" fill="#fff" stroke="#000" stroke-width="2.5"/>
         <circle cx="18" cy="20" r="3" fill="#000"/><circle cx="34" cy="20" r="3" fill="#000"/>
         <path d="M 22 26 Q 26 31 30 26" fill="none" stroke="#000" stroke-width="2.5"/>
       </svg>
-      <!-- 右上笑脸云 -->
       <svg class="scene-decor" style="right:120px; top:130px; width:52px; height:45px;" viewBox="0 0 52 45">
         <rect x="6" y="4" width="40" height="36" rx="18" fill="#fff" stroke="#000" stroke-width="2.5"/>
         <circle cx="18" cy="20" r="3" fill="#000"/><circle cx="34" cy="20" r="3" fill="#000"/>
         <path d="M 22 26 Q 26 31 30 26" fill="none" stroke="#000" stroke-width="2.5"/>
       </svg>
-      <!-- 右上角金币组 (3个) -->
       <svg class="scene-decor" style="right:130px; top:40px; width:75px; height:30px;" viewBox="0 0 75 30">
         <circle cx="15" cy="15" r="10" fill="#ffd700" stroke="#b8860b" stroke-width="2"/>
         <circle cx="37" cy="15" r="10" fill="#ffd700" stroke="#b8860b" stroke-width="2"/>
         <circle cx="59" cy="15" r="10" fill="#ffd700" stroke="#b8860b" stroke-width="2"/>
       </svg>
-      <!-- 地面低矮灌木丛 (左侧) -->
       <svg class="scene-decor" style="left:20px; bottom:64px; width:65px; height:35px;" viewBox="0 0 65 35">
         <ellipse cx="12" cy="20" rx="12" ry="15" fill="#2ecc71" stroke="#000" stroke-width="2"/>
         <ellipse cx="32" cy="15" rx="16" ry="20" fill="#2ecc71" stroke="#000" stroke-width="2"/>
         <ellipse cx="52" cy="20" rx="12" ry="15" fill="#2ecc71" stroke="#000" stroke-width="2"/>
       </svg>
-      <!-- 地面低矮灌木丛 (中段) -->
       <svg class="scene-decor" style="left:240px; bottom:64px; width:65px; height:35px;" viewBox="0 0 65 35">
         <ellipse cx="12" cy="20" rx="12" ry="15" fill="#2ecc71" stroke="#000" stroke-width="2"/>
         <ellipse cx="32" cy="15" rx="16" ry="20" fill="#2ecc71" stroke="#000" stroke-width="2"/>
@@ -3800,7 +3872,6 @@ function renderMapEnvironment() {
         <ellipse cx="32" cy="15" rx="16" ry="20" fill="#2ecc71" stroke="#000" stroke-width="2"/>
         <ellipse cx="52" cy="20" rx="12" ry="15" fill="#2ecc71" stroke="#000" stroke-width="2"/>
       </svg>
-      <!-- 右侧叠层绿色山丘群 -->
       <svg class="scene-decor" style="right:0px; bottom:64px; width:160px; height:120px;" viewBox="0 0 160 120">
         <polygon points="20,120 90,30 160,120" fill="#27ae60" stroke="#000" stroke-width="2.5"/>
         <polygon points="0,120 50,70 100,120" fill="#2ecc71" stroke="#000" stroke-width="2.5"/>
@@ -3808,7 +3879,6 @@ function renderMapEnvironment() {
       </svg>
     `;
 
-    // 6. 地面敌人在第7关的初始化（地面乌龟与栗子怪）
     const enemiesW7 = [
       { id: 'w7_goomba', type: 'goomba', x: 580, y: 64, vx: -0.8, minX: 450, maxX: 680, w: 28, h: 28 },
       { id: 'w7_koopa', type: 'koopa', x: 700, y: 64, vx: 0.8, minX: 620, maxX: 820, w: 28, h: 36 }
@@ -4224,11 +4294,11 @@ function renderBlocks() {
     const w2 = getDynamicWidth(options[2]);
     const w3 = getDynamicWidth(options[3]);
 
-    const b0_x = arrayStartX;                            
-    const q1_x = b0_x + 56;                            
-    const b1_x = q1_x + w1;                    
-    const q2_x = b1_x + 56;                            
-    const b2_x = q2_x + w2;                            
+    const b0_x = arrayStartX;                         
+    const q1_x = b0_x + 56;                           
+    const b1_x = q1_x + w1;                     
+    const q2_x = b1_x + 56;                         
+    const b2_x = q2_x + w2;                         
     const q3_x = b1_x + (56 - w3) / 2;
     const q3_y = 285;
 
@@ -4392,9 +4462,6 @@ function renderBlocks() {
 
     sBricksData.push({ x: 370, y: 64, w: 56, h: 120 });
   } else if (stage === 7) {
-    // -------------------------------------------------------------------------
-    // 第七关：空中长条砖块平台对应的 4 个选项方块坐标配置
-    // -------------------------------------------------------------------------
     qBlocksData = [
       { x: 440, y: 195, text: options[0], w: getDynamicWidth(options[0]) },
       { x: 680, y: 340, text: options[1], w: getDynamicWidth(options[1]) },
@@ -4403,10 +4470,10 @@ function renderBlocks() {
     ];
 
     sBricksData = [
-      { x: 220, y: 195, w: 100, h: 36 }, // 对应图片中中间悬浮的长条砖块平台
-      { x: 420, y: 195, w: 160, h: 55 },//对应图片中中间悬浮的长条砖块平台
-      { x: 420, y: 140, w: 32, h: 55 },//对应图片中中间悬浮的长条砖块平台
-      { x: 720, y: 195, w: 80, h: 36 }, // 对应图片中中间悬浮的长条砖块平台
+      { x: 220, y: 195, w: 100, h: 36 },
+      { x: 420, y: 195, w: 160, h: 55 },
+      { x: 420, y: 140, w: 32, h: 55 },
+      { x: 720, y: 195, w: 80, h: 36 },
     ];
   } else if (stage === 8) {
     qBlocksData = [
@@ -4854,7 +4921,34 @@ window.addEventListener('keyup', (e) => {
   if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
 });
 
-// 初始化页面并默认选中 HSK1
+function initSeriesDropdown() {
+  const seriesSel = document.getElementById('series-select');
+  try {
+    const savedCustomData = localStorage.getItem('super_mario_custom_vocabularies');
+    if (savedCustomData) {
+      const parsedCustom = JSON.parse(savedCustomData);
+      for (let fileName in parsedCustom) {
+        let exists = false;
+        for (let i = 0; i < seriesSel.options.length; i++) {
+          if (seriesSel.options[i].value === fileName) {
+            exists = true;
+            break;
+          }
+        }
+        if (!exists) {
+          let opt = document.createElement('option');
+          opt.value = fileName;
+          opt.innerText = `📁 ${fileName} (已保存)`;
+          seriesSel.appendChild(opt);
+        }
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+initSeriesDropdown();
 document.getElementById('series-select').value = "HSK1";
 rebuildPresetSelect();
 initWorld();
