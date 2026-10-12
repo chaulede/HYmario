@@ -567,6 +567,14 @@
       <option value="YCT4">YCT 4</option>
       <option value="YCT5">YCT 5</option>
       <option value="YCT6">YCT 6</option>
+      <option value="estcV1_1A">estcV1 1A</option>
+      <option value="estcV1_1B">estcV1 1B</option>
+      <option value="estcV1_2A">estcV1 2A</option>
+      <option value="estcV1_2B">estcV1 2B</option>
+      <option value="estcV1_3A">estcV1 3A</option>
+      <option value="estcV1_3B">estcV1 3B</option>
+      <option value="estcV1_4A">estcV1 4A</option>
+      <option value="estcV1_4B">estcV1 4B</option>
       <option value="ESTC">ESTC</option>
       <option value="EasySteps">Easy Steps</option>
     </select>
@@ -602,7 +610,7 @@
 </div>
 
 <script>
-// 内置多体系词库合并，已将 YCT6 全部内置
+// 内置多体系词库合并，已将 estcV1 按照 1A-4B 目录规范完整内置
 const multiSeriesRawData = {
   "HSK1": `
 Lesson 1
@@ -1473,7 +1481,7 @@ LESSON 11
 没办法 - have no way/alternative
 解决 - solve; resolve
 问题 - question; problem
-对 - to; toward
+對 - to; toward
 来说 - as for
 
 LESSON 12
@@ -2728,11 +2736,513 @@ Lesson 14
 森林 - forest
 了解 - understand, know about
 `,
+  "estcV1_1A": `
+Lesson 1
+一 - one
+二 - two
+三 - three
+四 - four
+五 - five
+
+Lesson 2
+六 - six
+七 - seven
+八 - eight
+九 - nine
+十 - ten
+
+Lesson 3
+十一 - eleven
+十二 - twelve
+十三 - thirteen
+十四 - fourteen
+十五 - fifteen
+十六 - sixteen
+十七 - seventeen
+十八 - eighteen
+十九 - nineteen
+二十 - twenty
+
+Lesson 4
+你 - you
+您 - you (respectfully)
+好 - good
+老师 - teacher
+再见 - good-bye
+王 - a surname; king
+
+Lesson 5
+谢谢你 - thank you
+不客气 - you’re welcome
+对不起 - I’m sorry
+没关系 - never mind
+
+Lesson 6
+我 - I; me
+叫 - call
+什么 - what
+名字 - name
+
+Lesson 7
+岁 - age
+几 - how many
+上一年级 - attend Grade One
+都 - both; all
+医生 - doctor
+加 - add
+等于 - equal
+`,
+  "estcV1_1B": `
+Lesson 1
+爸爸 - dad
+妈妈 - mum
+爱 - love; like
+
+Lesson 2
+哥哥 - elder brother
+姐姐 - elder sister
+弟弟 - younger brother
+妹妹 - younger sister
+有 - have
+
+Lesson 3
+我的 - my
+眼睛 - eye
+鼻子 - nose
+嘴巴 - mouth
+耳朵 - ear
+
+Lesson 4
+头 - head
+头发 - hair
+手 - hand
+脚 - foot
+和 - and
+
+Lesson 5
+喜欢 - like
+猫 - cat
+狗 - dog
+鱼 - fish
+金鱼 - goldfish
+的 - 's; of
+小 - small; little
+
+Lesson 6
+红色 - red
+黄色 - yellow
+蓝色 - blue
+绿色 - green
+
+Lesson 7
+吃 - eat
+苹果 - apple
+香蕉 - banana
+草莓 - strawberry
+葡萄 - grape
+`,
+  "estcV1_2A": `
+Lesson 1
+二十六 - twenty-six
+三十八 - thirty-eight
+四十 - forty
+加 - plus
+等于 - equal to
+
+Lesson 2
+没有 - there isn't
+和 - and
+个 - one
+两个 - two
+
+Lesson 3
+朋友 - friend
+他 - he
+她 - she
+是 - be
+小学生 - primary school student
+找 - look for
+找到 - have found
+
+Lesson 4
+娃娃 - doll
+玩具飞机 - toy plane
+玩具火车 - toy train
+玩具熊 - teddy bear
+
+Lesson 5
+看书 - read books
+画画 - draw; paint
+写字 - write characters
+玩游戏 - play games
+每天 - everyday
+减 - minus
+对了 - right
+不对 - wrong
+
+Lesson 6
+会 - can
+穿 - put on; wear
+衣服 - clothes
+鞋子 - shoes
+梳头 - comb one's hair
+刷牙 - brush one's teeth
+
+Lesson 7
+不 - no
+紫色 - purple
+橙色 - orange
+粉红色 - pink
+黑色 - black
+白色 - white
+`,
+  "estcV1_2B": `
+Lesson 1
+今天 - today
+星期一 - Monday
+星期二 - Tuesday
+星期三 - Wednesday
+星期四 - Thursday
+星期五 - Friday
+星期六 - Saturday
+星期天 - Sunday
+星期 - week
+天 - day
+
+Lesson 2
+几点了 - what time is it?
+一点 - 1 o'clock
+两点 - 2 o'clock
+三点 - 3 o'clock
+四点 - 4 o'clock
+五点 - 5 o'clock
+六点 - 6 o'clock
+七点 - 7 o'clock
+八点 - 8 o'clock
+九点 - 9 o'clock
+十点 - 10 o'clock
+十一点 - 11 o'clock
+十二点 - 12 o'clock
+
+Lesson 3
+铅笔 - pencil
+橡皮 - eraser
+彩色笔 - colour pencil
+尺子 - ruler
+剪刀 - scissors
+支 - a measure word
+把 - a measure word
+块 - a measure word
+
+Lesson 4
+这 - this
+教室 - classroom
+桌子 - desk; table
+椅子 - chair
+书 - book
+张 - a measure word
+本 - a measure word
+间 - a measure word
+个 - a measure word
+
+Lesson 5
+动物园 - zoo
+里 - inside
+老虎 - tiger
+大象 - elephant
+熊猫 - panda
+只 - a measure word
+条 - a measure word
+头 - a measure word
+加起来 - add up
+多少 - how many
+
+Lesson 6
+兔子 - rabbit
+大 - big
+小 - small
+多 - many
+少 - few
+根 - a measure word
+
+Lesson 7
+糖果 - candy
+蛋糕 - cake
+冰淇淋 - ice cream
+巧克力 - chocolate
+`,
+  "estcV1_3A": `
+Lesson 1
+四十一 - forty-one
+五十三 - fifty-three
+五十 - fifty
+六十 - sixty
+七十 - seventy
+八十 - eighty
+九十 - ninety
+一百 - one hundred
+口 - mouth
+目 - eye
+
+Lesson 2
+号 - date
+一月 - January
+二月 - February
+三月 - March
+四月 - April
+五月 - May
+六月 - June
+七月 - July
+八月 - August
+九月 - September
+十月 - October
+十一月 - November
+十二月 - December
+今天 - today
+日 - sun; day/date
+月 - moon; month
+
+Lesson 3
+祝 - wish
+生日 - birthday
+快乐 - happy
+礼物 - gift; present
+生日会 - birthday party
+人 - person
+天 - sky; day
+
+Lesson 4
+家 - family
+五口人 - five members of a family
+爷爷 - father's father
+奶奶 - father's mother
+外公 - mother's father
+外婆 - mother's mother
+谁 - who
+山 - mountain
+木 - wood
+
+Lesson 5
+中国人 - Chinese (people)
+德国人 - German (people)
+美国人 - American (people)
+法国人 - French (people)
+英国人 - British (people)
+哪国人 - what nationality
+澳大利亚 - Australia
+加拿大 - Canada
+土 - soil
+田 - field
+
+Lesson 6
+可以 - can; may
+不行 - cannot; may not
+吗 - question particle
+去 - go
+厕所 - toilet
+喝水 - drink water
+吃饭 - eat a meal
+大 - big
+小 - small
+
+Lesson 7
+校服 - school uniform
+衬衫 - shirt
+裙子 - dress; skirt
+裤子 - trousers
+皮鞋 - leather shoes
+多 - many
+少 - few
+`,
+  "estcV1_3B": `
+Lesson 1
+书包 - schoolbag
+课本 - textbook
+练习册 - workbook
+文具盒 - pencil case
+上 - up; above
+下 - down; below
+
+Lesson 2
+电脑 - computer
+电视机 - television set
+书架 - bookshelf
+很多 - many, much
+上 - on top of
+水 - water
+火 - fire
+
+Lesson 3
+在 - in; on; at
+前边 - in front
+后边 - behind
+左边 - left
+右边 - right
+拍 - clap
+跳 - jump
+牛 - ox
+羊 - sheep
+
+Lesson 4
+我们 - we; us
+唱歌 - sing
+跳舞 - dance
+游泳 - swim
+滑冰 - skate
+滑雪 - ski
+门 - door
+头 - head
+
+Lesson 5
+面包 - bread
+鸡蛋 - egg
+饺子 - dumpling
+包子 - steamed stuffed bun
+牛奶 - milk
+果汁 - juice
+心 - heart
+马 - horse
+
+Lesson 6
+土豆 - potato
+黄瓜 - cucumber
+西兰花 - broccoli
+西红柿 - tomato
+胡萝卜 - carrot
+也 - also; too
+米 - rice
+石 - stone
+
+Lesson 7
+天上 - in the sky
+地上 - on the ground
+太阳 - sun
+星星 - star
+月亮 - moon
+树 - tree
+花 - flower
+草 - grass
+力 - strength; power
+手 - hand
+`,
+  "estcV1_4A": `
+Lesson 1
+住 - live
+哪儿 - where
+他们 - they; them
+北京 - Beijing
+电话号码 - telephone number
+多少 - how many; how much
+
+Lesson 2
+说 - speak; say
+汉语 - Chinese (language)
+英语 - English (language)
+德语 - German (language)
+法语 - French (language)
+
+Lesson 3
+现在 - now
+分 - minute
+一刻 - a quarter (of an hour)
+三刻 - three quarters (of an hour)
+半 - half
+零 - zero
+
+Lesson 4
+起床 - get up
+早饭 - breakfast
+午饭 - lunch
+上学 - go to school
+放学 - school is over
+晚饭 - dinner
+睡觉 - sleep
+
+Lesson 5
+炒面 - fried noodles
+薯条 - French fries
+热狗 - hot dog
+三明治 - sandwich
+比萨饼 - pizza
+
+Lesson 6
+坐 - sit; travel by
+校车 - school bus
+走路 - walk
+出租车 - taxi
+公共汽车 - bus
+
+Lesson 7
+饿 - hungry
+渴 - thirsty
+饱 - full
+要 - want
+可乐 - Coke
+炒饭 - fried rice
+好吃 - delicious
+`,
+  "estcV1_4B": `
+Lesson 1
+下雨 - rain
+下雪 - snow
+晴天 - sunny day
+很冷 - very cold
+很热 - very hot
+刮大风 - very windy
+
+Lesson 2
+T恤 - T-shirt
+短裤 - shorts
+毛衣 - sweater
+长裤 - pants
+大衣 - overcoat
+帽子 - hat
+戴 - wear (accessories)
+
+Lesson 3
+房间 - room
+床 - bed
+衣柜 - wardrobe
+书桌 - desk
+钢琴 - piano
+自行车 - bicycle
+
+Lesson 4
+看电视 - watch TV
+弹钢琴 - play the piano
+玩电脑游戏 - play computer games
+看电影 - watch movies
+看动画片儿 - watch cartoons
+
+Lesson 5
+学校 - school
+礼堂 - assembly hall
+图书馆 - library
+操场 - playground
+游泳池 - swimming pool
+
+Lesson 6
+学 - study
+上课 - attend a class
+数学 - maths
+音乐 - music
+美术 - art
+体育 - P.E.
+
+Lesson 7
+公园 - park
+海边 - seaside
+跑步 - run; jog
+踢球 - play football
+骑自行车 - ride a bicycle
+玩沙子 - play with sand
+`,
   "ESTC": `
 Lesson 1
 你好 - hello
 早安 - good morning
 晚安 - good evening
+
 Lesson 2
 开心 - happy
 高兴 - glad
@@ -2752,7 +3262,7 @@ const easyStepsDict = {};
 let allSeriesStages = {};
 let currentSeriesKey = "HSK1";
 let curriculumStages = [];
-const defaultBuiltinKeys = ["HSK1", "HSK2", "HSK3", "HSK4", "YCT1", "YCT2", "YCT3", "YCT4", "YCT5", "YCT6", "ESTC", "EasySteps"];
+const defaultBuiltinKeys = ["HSK1", "HSK2", "HSK3", "HSK4", "YCT1", "YCT2", "YCT3", "YCT4", "YCT5", "YCT6", "estcV1_1A", "estcV1_1B", "estcV1_2A", "estcV1_2B", "estcV1_3A", "estcV1_3B", "estcV1_4A", "estcV1_4B", "ESTC", "EasySteps"];
 
 function parseTextToStages(text, seriesName) {
   const lines = text.split(/\r?\n/);
@@ -2923,23 +3433,19 @@ function handleVocabFileUpload(event) {
   reader.readAsText(file);
 }
 
-// 新增：删除当前选择的自定义词汇表功能
 function deleteCurrentCustomVocab() {
   const seriesSel = document.getElementById('series-select');
   const selectedKey = seriesSel.value;
 
-  // 检查是否为内置词库
   if (defaultBuiltinKeys.includes(selectedKey)) {
     alert("内置教材体系无法删除！");
     return;
   }
 
   if (confirm(`确定要删除自定义词汇表 "${selectedKey}" 吗？`)) {
-    // 从内存中移除
     delete multiSeriesRawData[selectedKey];
     delete allSeriesStages[selectedKey];
 
-    // 从 localStorage 移除
     try {
       const existing = localStorage.getItem('super_mario_custom_vocabularies');
       if (existing) {
@@ -2951,7 +3457,6 @@ function deleteCurrentCustomVocab() {
       console.error("Failed to delete from localStorage:", err);
     }
 
-    // 从下拉菜单中移除该选项
     for (let i = 0; i < seriesSel.options.length; i++) {
       if (seriesSel.options[i].value === selectedKey) {
         seriesSel.remove(i);
@@ -2959,7 +3464,6 @@ function deleteCurrentCustomVocab() {
       }
     }
 
-    // 切回默认 HSK1
     seriesSel.value = "HSK1";
     currentSeriesKey = "HSK1";
     curriculumStages = allSeriesStages["HSK1"];
@@ -3980,7 +4484,6 @@ function renderMapEnvironment() {
               <path d="M 4 24 C 2 12, 14 0, 32 6 L 22 18 Z" fill="#e74c3c" stroke="#000" stroke-width="2"/>
               <path d="M 4 24 C 10 32, 28 32, 32 20 L 20 22 Z" fill="#e74c3c" stroke="#000" stroke-width="2"/>
               <polygon points="12,11 16,14 11,16" fill="#fff"/>
-              <polygon points="18,12 22,16 17,17" fill="#fff"/>
               <circle cx="8" cy="18" r="2.5" fill="#fff"/>
             </svg>
           </div>
@@ -4294,10 +4797,10 @@ function renderBlocks() {
     const w2 = getDynamicWidth(options[2]);
     const w3 = getDynamicWidth(options[3]);
 
-    const b0_x = arrayStartX;                         
-    const q1_x = b0_x + 56;                           
+    const b0_x = arrayStartX;                     
+    const q1_x = b0_x + 56;                         
     const b1_x = q1_x + w1;                     
-    const q2_x = b1_x + 56;                         
+    const q2_x = b1_x + 56;                       
     const b2_x = q2_x + w2;                         
     const q3_x = b1_x + (56 - w3) / 2;
     const q3_y = 285;
